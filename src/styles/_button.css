@@ -1,0 +1,37 @@
+.button{
+  border: 1.5px solid white;
+  border-radius: 25px;
+  color: white;
+  font-weight: bold;
+  background: none;
+  width: 10%;
+  height: 60%;
+  outline: none;
+}
+
+.modal-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.modal-button__cancel {
+  border: 1.5px solid grey;
+  border-radius: 25px;
+  color: grey;
+  font-weight: 500;
+  background: none;
+  width: 80px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.modal-button__create {
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-weight: 500;
+  background: #657dc4;
+  width: 80px;
+  height: 30px;
+}

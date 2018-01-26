@@ -1,0 +1,34 @@
+
+.card {
+  background: #f6f6f6;
+  height: 200px;
+  width: 200px;
+  margin: 30px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.card__info {
+  background: white;
+  padding: 10px 15px;
+  text-align: left;
+}
+
+.card__title {
+  font-size: 13px;
+  text-align: left;
+  font-weight: bold;
+  padding: 0;
+}
+
+.card__author {
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  font-style: italic;
+  margin-bottom: 10px;
+}

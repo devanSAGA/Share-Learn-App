@@ -1,66 +1,60 @@
-import React, { Component } from 'react';
-import AddClassModal from './AddClassModal.js';
-import Header from './Header.js';
-import Classes from './Classes.js'
+import React from 'react';
+import HomePageHeader from './HomePageHeader.js';
+import CoursesList from './CoursesList.js';
+import AddCourseModal from './AddCourseModal.js';
+import { connect } from 'react-redux';
+import { addCourse } from '../actions/addCourse.js';
 
-class App extends Component {
+class App extends React.Component {
   constructor(props){
     super(props);
-    this.handleAddNew = this.handleAddNew.bind(this);
-    this.handleSubmittedNewClass = this.handleSubmittedNewClass.bind(this);
+    this.handleAddNewCourse = this.handleAddNewCourse.bind(this);
     this.handleOnCancel = this.handleOnCancel.bind(this);
+    this.handleOnSubmit = this.handleOnSubmit.bind(this);
     this.state = {
-      classes: props.classes,
       modalIsOpen: false
     };
   }
 
-  handleAddNew() {
+  handleAddNewCourse() {
     this.setState(() => ({
-      modalIsOpen:true
+      modalIsOpen: true
     }));
   }
-  handleSubmittedNewClass(newClass) {
-    if(!newClass.name && !newClass.authorName){
-      return 'Please fill the data';
+
+  handleOnCancel() {
+    this.setState(() => ({
+      modalIsOpen: false
+    }));
+  }
+
+  handleOnSubmit(newCourse) {
+    if(!newCourse.name && !newCourse.authorName){
+      return 'Please fill the information';
     }
-    else if (newClass.name && !newClass.authorName) {
+    else if (!newCourse.authorName) {
       return 'Please enter Author-Name';
     }
-    else if(newClass.authorName && !newClass.name ) {
-      return 'Please enter Class-Name';
+    else if(!newCourse.name ) {
+      return 'Please enter Course Title';
     }
 
-    this.setState((prevState) => ({classes : prevState.classes.concat([newClass])}));
-    this.setState(() => ({
-      modalIsOpen:false
-    }));
+    this.props.dispatch(addCourse(newCourse));
+    this.handleOnCancel();
   }
-  handleOnCancel = () => {
-    this.setState(() => ({
-      modalIsOpen:false
-    }));
-  }
-
   render() {
     return (
-      <div className="App">
-        <Header handleAddNew={this.handleAddNew}/>
-        <div className="container-homepage">
-          <Classes classes={this.state.classes} />
-          <AddClassModal
-            modalIsOpen={this.state.modalIsOpen}
-            handleSubmittedNewClass={this.handleSubmittedNewClass}
-            handleOnCancel={this.handleOnCancel}
-          />
-        </div>
+      <div>
+        <HomePageHeader handleAddNewCourse = {this.handleAddNewCourse}/>
+        <CoursesList />
+        <AddCourseModal
+          modalIsOpen={this.state.modalIsOpen}
+          handleOnCancel={this.handleOnCancel}
+          handleOnSubmit={this.handleOnSubmit}
+        />
       </div>
     );
   }
 }
 
-App.defaultProps = {
-  classes: [ {name: "Class One", authorName: "abc"} , {name: "Class Two", authorName: "xyz"} ]
-};
-
-export default App;
+export default connect()(App);

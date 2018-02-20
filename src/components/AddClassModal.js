@@ -1,43 +1,58 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 
-export default class AddClassModal extends Component {
-  constructor(props) {
+export default class AddClassModal extends React.Component {
+  constructor(props){
     super(props);
-    this.handleSubmittedNewClass = this.handleSubmittedNewClass.bind(this);
+    this.handleSubmitNewClass = this.handleSubmitNewClass.bind(this);
     this.state = {
+      name: '',
+      description: '',
       error: undefined
-    };
+    }
   }
 
-  handleSubmittedNewClass(e) {
+  handleSubmitNewClass(e){
     e.preventDefault();
-    const classTitle = e.target.elements.title.value;
-    const authorName = e.target.elements.author.value;
-    const error = this.props.handleSubmittedNewClass({name: classTitle , authorName: authorName });
-
-    this.setState(() => ({ error : error }));
+    const newClass = {
+      name: e.target.elements.classtitle.value,
+      description: e.target.elements.description.value
+    }
+    const error = this.props.handleOnSubmit(newClass);
+    this.setState(() => ({ error }));
   }
-
   render() {
-    return (
+    return(
       <Modal
-        isOpen={this.props.modalIsOpen}
-        onRequestClose={this.props.handleOnCancel}
+        isOpen={this.props.AddClassModalOpen}
         contentLabel="Add new class modal"
+        onRequestClose={this.props.handleOnCancel}
         closeTimeoutMS={200}
         className="modal"
       >
-        <p className="modal__title">Add Class</p>
+        <p className="modal__title">Add New Class in Course</p>
         {this.state.error && <p className="modal__error">{this.state.error}</p>}
-        <form onSubmit={this.handleSubmittedNewClass}>
-          <label for="title">Title</label><br />
-          <input id="title "type="text" name="title" placeholder="Please, select your desired title…"/><br />
-          <label for="authorName">Author-Name</label><br />
-          <input id="authorName" type="text" name="author" placeholder="Please enter Author's name"/><br />
+        <form onSubmit={this.handleSubmitNewClass}>
+          <label for="classtitle">Class-Title</label><br />
+          <input
+            id="classtitle"
+            type="text"
+            name="classtitle"
+            autoFocus
+            placeholder="Please, select your desired title…"
+          /> <br />
+          <label for="author">Description</label><br />
+
+          <input
+            id="description"
+            type="text"
+            name="description"
+            placeholder="Explain what’s the purpose of this class if anyone has any doubts…"
+          /> <br />
+
           <div className="modal-button">
+            <button className="modal-button__create">Save</button>
             <button className="modal-button__cancel" onClick={this.props.handleOnCancel}>Cancel</button>
-            <button className="modal-button__create">Create</button>
           </div>
         </form>
       </Modal>

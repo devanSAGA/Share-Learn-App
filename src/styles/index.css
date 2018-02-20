@@ -3,6 +3,7 @@
 @import "./_cards.css";
 @import "./_modal.css";
 @import "./_header.css";
+@import "./_classinfoheader.css";
 
 body {
   margin: 0;
